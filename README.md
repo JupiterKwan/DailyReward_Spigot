@@ -2,9 +2,9 @@
 
 ## Introduction
 
-Give everyone 1 - 5 random items as reward when they first login everyday. :)
+Give everyone 1 - 5 random item(s) as reward when they first login everyday. :)
 
-For ```Minecraft version 1.20``` and works perfectly on my ```1.20.2 Paper Server```. It should work just fine on newer
+For ```Minecraft version 1.20+``` and works perfectly on my ```1.20.2 Paper Server```. It should work just fine on newer
 versions as well.
 
 ## Usage
@@ -15,7 +15,7 @@ server and good to go.
 ## Config
 
 The default config is in ```./src/main/resources/config.yml```, remember to use all lowercase item-id.
-the example config is below:
+The example config is below:
 
 ```yaml
 # This is the example, see the default list in 'src/main/resources/config.yml'
