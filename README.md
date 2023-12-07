@@ -29,5 +29,6 @@ ban-items: [
 
 ## Compile
 
-This is a maven project made in intellij idea. To compile, simply run mvn package. The output JAR will be located
+This is a maven project made in Intellij Idea with JDK 21. You can edit the ```pom.xml``` file to make this project
+works on JDK 18+. To compile, simply run mvn package. The output JAR will be located
 in ```./target``` folder.
