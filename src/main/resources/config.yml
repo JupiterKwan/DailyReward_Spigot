@@ -1,5 +1,4 @@
 ban-items: [
-  # In all lowercase
   command_block_minecart,
   recovery_compass,
   debug_stick,
@@ -8,6 +7,13 @@ ban-items: [
   light,
   structure_block,
   structure_void,
+  netherite_ingot,
+  netherite_scrap,
+  lodestone,
+  netherite_helmet,
+  netherite_chestplate,
+  netherite_leggings,
+  netherite_boots,
   netherite_upgrade_smithing_template,
   coast_armor_trim_smithing_template,
   dune_armor_trim_smithing_template,
@@ -142,5 +148,13 @@ ban-items: [
   snort_pottery_sherd,
   dragon_egg,
   ender_chest,
-  nether_star
+  nether_star,
+  enchanted_book,
+  skeleton_skull,
+  wither_skeleton_skull,
+  zombie_head,
+  player_head,
+  creeper_head,
+  dragon_head,
+  piglin_head
 ]

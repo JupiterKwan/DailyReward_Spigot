@@ -1,5 +1,7 @@
 package org.jupiter.dailyReward;
 
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.TranslatableComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -13,7 +15,7 @@ import org.bukkit.event.Listener;
 
 import java.util.*;
 
-public class dailyRewardPlugin extends JavaPlugin implements Listener {
+public class DailyRewardPlugin extends JavaPlugin implements Listener {
     private HashMap<String, Integer> playerLoginDates;
 
     private static final Configuration CONFIGURATION = new Configuration();
@@ -35,6 +37,7 @@ public class dailyRewardPlugin extends JavaPlugin implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        String playerLang = player.getLocale();
         String playerName = player.getName();
 
         Calendar now = Calendar.getInstance();
@@ -50,18 +53,31 @@ public class dailyRewardPlugin extends JavaPlugin implements Listener {
 
         // DailyReward
         Random random = new Random();
+        random.setSeed(System.currentTimeMillis());
         boolean isItem = false;
         while (!isItem) {
             Material[] materials = Material.values();
             int amount = random.nextInt(5) + 1;
             Material randomMaterial = materials[random.nextInt(materials.length)];
+
             ItemStack rewardItem = new ItemStack(randomMaterial, amount);
             if (randomMaterial.isItem()) {
+                TranslatableComponent giveMessage = new TranslatableComponent(randomMaterial.getItemTranslationKey());
+
+                // If item in bannedList
                 if (bannedItems.contains(randomMaterial.name().toLowerCase())) {
-                    player.sendMessage(ChatColor.RED + "System don't want to give you " + amount + "x " + randomMaterial.name() + ", haha~");
+                    TextComponent noGiveMessage = new TextComponent("系統無法獎勵你");
+                    noGiveMessage.addExtra(String.valueOf(amount));
+                    noGiveMessage.addExtra("個");
+                    noGiveMessage.addExtra(giveMessage);
+                    noGiveMessage.addExtra("喔！重新roll過啦！");
+                    noGiveMessage.setColor(net.md_5.bungee.api.ChatColor.DARK_GRAY);
+                    player.spigot().sendMessage(noGiveMessage);
                     continue;
                 }
+
                 isItem = true;
+                // If player inventory is full
                 if (player.getInventory().firstEmpty() == -1) {
                     World playerWorld = player.getWorld();
                     playerWorld.dropItem(player.getLocation(), rewardItem);
@@ -69,7 +85,20 @@ public class dailyRewardPlugin extends JavaPlugin implements Listener {
                 } else {
                     player.getInventory().addItem(rewardItem);
                 }
-                Bukkit.broadcastMessage(ChatColor.GOLD + player.getName() + "今日登錄獎勵係：" + amount + "個" + randomMaterial.name());
+                getLogger().info(randomMaterial.name());
+                getLogger().info(String.valueOf(amount));
+                for (org.bukkit.entity.Player onlinePlayer : org.bukkit.Bukkit.getOnlinePlayers()) {
+                    if (onlinePlayer != null) {
+                        TextComponent textComponent = new TextComponent(playerName);
+                        textComponent.addExtra(" 今日登錄獎勵係：");
+                        textComponent.addExtra("[");
+                        textComponent.addExtra(giveMessage);
+                        textComponent.addExtra("] * ");
+                        textComponent.addExtra(String.valueOf(amount));
+                        textComponent.setColor(net.md_5.bungee.api.ChatColor.GOLD);
+                        onlinePlayer.spigot().sendMessage(textComponent);
+                    }
+                }
                 playerLoginDates.put(playerName, currentDayOfYear);
             }
         }

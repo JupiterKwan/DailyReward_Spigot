@@ -1,4 +1,4 @@
 name: DailyReward
-version: 1.0
-main: org.jupiter.dailyReward.dailyRewardPlugin
+version: 1.1
+main: org.jupiter.dailyReward.DailyRewardPlugin
 api-version: 1.20
